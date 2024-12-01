@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./docs_flow_backend/Dockerfile
+    image: docs_flow_backend:latest
+    container_name: docs_flow_backend_container
+    command: poetry run python3 ./manage.py runserver 0.0.0.0:8098
+    ports:
+    - "8098:8098"
+    volumes:
+      - ./docs_flow_backend:/app
+  frontend:
+    build: ./docs_flow_frontend/Dockerfile
+    image: docs_flow_frontend:latest
+    container_name: docs_flow_frontend_container
+    command: nginx -g daemon off
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./docs_flow_frontend:/app
+      - ./docs_flow_frontend/node_modules
